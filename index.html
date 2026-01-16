@@ -1,11 +1,501 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>My New Site</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Finder - Discover Your Next Adventure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: #1a1a1a;
+            margin-bottom: 35px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .search-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .location-section {
+            margin-bottom: 30px;
+        }
+
+        .location-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #f0f4ff;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .location-icon {
+            font-size: 24px;
+        }
+
+        .location-text {
+            flex: 1;
+            color: #333;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .filter-section {
+            margin-bottom: 30px;
+        }
+
+        .filter-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-tag {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .filter-tag:hover {
+            background: #f0f4ff;
+        }
+
+        .filter-tag.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        .search-btn-container {
+            text-align: center;
+        }
+
+        .btn-search {
+            padding: 15px 50px;
+            font-size: 1.1rem;
+        }
+
+        .results-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        .results-header {
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .results-header h2 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .activity-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .activity-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .activity-category {
+            display: inline-block;
+            padding: 5px 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .activity-distance {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .activity-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .activity-details {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .search-card {
+                padding: 25px;
+            }
+
+            .filter-tags {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>Hello world 👋</h1>
-  <p>If you can see this, Netlify is working.</p>
+    <div class="container">
+        <header>
+            <h1>🎯 Activity Finder</h1>
+            <p class="tagline">Discover extracurriculars and volunteer opportunities near you</p>
+        </header>
+
+        <div class="search-card">
+            <div class="location-section">
+                <div class="location-status" id="locationStatus">
+                    <span class="location-icon">📍</span>
+                    <span class="location-text" id="locationText">Click below to enable location access</span>
+                </div>
+                <button class="btn btn-primary" id="locationBtn" onclick="requestLocation()">
+                    Enable Location
+                </button>
+            </div>
+
+            <div class="filter-section">
+                <h3>What are you interested in?</h3>
+                <div class="filter-tags">
+                    <div class="filter-tag" data-category="rocketry" onclick="toggleFilter(this)">🚀 Rocketry</div>
+                    <div class="filter-tag" data-category="service" onclick="toggleFilter(this)">🤝 Service</div>
+                    <div class="filter-tag" data-category="volunteer" onclick="toggleFilter(this)">❤️ Volunteer Work</div>
+                    <div class="filter-tag" data-category="sports" onclick="toggleFilter(this)">⚽ Sports</div>
+                    <div class="filter-tag" data-category="arts" onclick="toggleFilter(this)">🎨 Arts</div>
+                    <div class="filter-tag" data-category="stem" onclick="toggleFilter(this)">🔬 STEM</div>
+                    <div class="filter-tag" data-category="music" onclick="toggleFilter(this)">🎵 Music</div>
+                    <div class="filter-tag" data-category="debate" onclick="toggleFilter(this)">💬 Debate</div>
+                </div>
+            </div>
+
+            <div class="search-btn-container">
+                <button class="btn btn-primary btn-search" id="searchBtn" onclick="searchActivities()" disabled>
+                    Find Activities Near Me
+                </button>
+            </div>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <div class="results-header">
+                <h2>Activities Near You</h2>
+                <p id="resultsCount"></p>
+            </div>
+            <div id="activitiesList"></div>
+        </div>
+    </div>
+
+    <script>
+        let userLocation = null;
+        let selectedFilters = [];
+
+        function requestLocation() {
+            const btn = document.getElementById('locationBtn');
+            const statusText = document.getElementById('locationText');
+            
+            btn.disabled = true;
+            btn.textContent = 'Requesting...';
+            
+            if (!navigator.geolocation) {
+                statusText.textContent = 'Geolocation is not supported by your browser';
+                btn.disabled = false;
+                btn.textContent = 'Enable Location';
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    statusText.textContent = `Location enabled: ${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}`;
+                    btn.textContent = '✓ Location Enabled';
+                    btn.style.background = '#10b981';
+                    document.getElementById('searchBtn').disabled = false;
+                },
+                (error) => {
+                    let errorMsg = 'Unable to retrieve location';
+                    if (error.code === 1) errorMsg = 'Location access denied';
+                    else if (error.code === 2) errorMsg = 'Location unavailable';
+                    else if (error.code === 3) errorMsg = 'Location request timed out';
+                    
+                    statusText.textContent = errorMsg;
+                    btn.disabled = false;
+                    btn.textContent = 'Try Again';
+                }
+            );
+        }
+
+        function toggleFilter(element) {
+            const category = element.dataset.category;
+            element.classList.toggle('active');
+            
+            if (selectedFilters.includes(category)) {
+                selectedFilters = selectedFilters.filter(f => f !== category);
+            } else {
+                selectedFilters.push(category);
+            }
+        }
+
+        async function searchActivities() {
+            if (!userLocation) {
+                alert('Please enable location first!');
+                return;
+            }
+
+            const resultsSection = document.getElementById('resultsSection');
+            const activitiesList = document.getElementById('activitiesList');
+            
+            // Show loading
+            resultsSection.classList.add('show');
+            activitiesList.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Finding activities near you...</p>
+                </div>
+            `;
+
+            // Simulate API call
+            setTimeout(() => {
+                displayMockResults();
+            }, 1500);
+        }
+
+        function displayMockResults() {
+            const activitiesList = document.getElementById('activitiesList');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            // Mock data - in real implementation, this would come from your API
+            const mockActivities = [
+                {
+                    title: "Community Garden Volunteers Needed",
+                    category: "volunteer",
+                    distance: "0.8 miles",
+                    description: "Help maintain our community garden every Saturday morning. Great for students looking to give back while learning about sustainable agriculture.",
+                    schedule: "Saturdays 9 AM - 12 PM",
+                    organization: "Green Valley Community Center"
+                },
+                {
+                    title: "Youth Rocketry Club",
+                    category: "rocketry",
+                    distance: "1.2 miles",
+                    description: "Build and launch model rockets while learning aerospace engineering principles. Competitions available for advanced members.",
+                    schedule: "Thursdays 4 PM - 6 PM",
+                    organization: "STEM Academy"
+                },
+                {
+                    title: "Animal Shelter Support Team",
+                    category: "service",
+                    distance: "2.1 miles",
+                    description: "Assist with animal care, socialization, and adoption events. Perfect for animal lovers wanting to make a difference.",
+                    schedule: "Flexible scheduling",
+                    organization: "Paws & Claws Rescue"
+                },
+                {
+                    title: "Coding for Good Initiative",
+                    category: "stem",
+                    distance: "2.5 miles",
+                    description: "Use your coding skills to build websites and apps for local nonprofits. All skill levels welcome!",
+                    schedule: "Tuesdays 3:30 PM - 5:30 PM",
+                    organization: "Tech4Community"
+                }
+            ];
+
+            // Filter results based on selected categories
+            let filteredActivities = mockActivities;
+            if (selectedFilters.length > 0) {
+                filteredActivities = mockActivities.filter(activity => 
+                    selectedFilters.includes(activity.category)
+                );
+            }
+
+            resultsCount.textContent = `Found ${filteredActivities.length} opportunities`;
+
+            if (filteredActivities.length === 0) {
+                activitiesList.innerHTML = `
+                    <div class="activity-card">
+                        <p style="text-align: center; color: #666;">No activities found matching your filters. Try selecting different categories!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            activitiesList.innerHTML = filteredActivities.map(activity => `
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div>
+                            <h3 class="activity-title">${activity.title}</h3>
+                            <span class="activity-category">${activity.category}</span>
+                        </div>
+                        <div class="activity-distance">${activity.distance}</div>
+                    </div>
+                    <p class="activity-description">${activity.description}</p>
+                    <div class="activity-details">
+                        <div class="detail-item">
+                            <span>📅</span>
+                            <span>${activity.schedule}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span>🏢</span>
+                            <span>${activity.organization}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
 </body>
 </html>
