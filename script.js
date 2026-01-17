@@ -25,6 +25,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
+//firebase test
+console.log("Firebase app initialized:", app);
+console.log("Firestore instance:", db);
+
 //all jscript that was in html.index: 
 
 
