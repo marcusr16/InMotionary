@@ -26,6 +26,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 //firebase test
+const db = getFirestore(app);
 console.log("Firebase app initialized:", app);
 console.log("Firestore instance:", db);
 
