@@ -278,6 +278,213 @@
             margin: 20px auto;
         }
 
+        .categories-section {
+            margin: 50px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .categories-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .categories-header h2 {
+            font-size: 2rem;
+            color: #1f2937;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .categories-header p {
+            color: #6b7280;
+            font-size: 1.05rem;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(209, 213, 219, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 130px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 70px;
+            height: 70px;
+            background: var(--accent-color);
+            opacity: 0.1;
+            border-radius: 0 10px 0 100%;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            border-color: var(--accent-color);
+        }
+
+        .category-card:hover::before {
+            opacity: 0.15;
+            width: 85px;
+            height: 85px;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            color: #1f2937;
+            font-weight: 600;
+            margin-bottom: 6px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-description {
+            color: #6b7280;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-icon {
+            align-self: flex-start;
+            width: 40px;
+            height: 40px;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+        }
+
+        .category-card:hover .category-icon {
+            opacity: 0.6;
+        }
+
+        /* Category-specific accent colors */
+        .category-card[data-category="service"] {
+            --accent-color: #f59e0b;
+        }
+
+        .category-card[data-category="stem"] {
+            --accent-color: #3b82f6;
+        }
+
+        .category-card[data-category="sports"] {
+            --accent-color: #ef4444;
+        }
+
+        .category-card[data-category="arts"] {
+            --accent-color: #a855f7;
+        }
+
+        .category-card[data-category="music"] {
+            --accent-color: #ec4899;
+        }
+
+        .category-card[data-category="debate"] {
+            --accent-color: #14b8a6;
+        }
+
+        .category-card[data-category="rocketry"] {
+            --accent-color: #6366f1;
+        }
+
+        .category-card[data-category="environmental"] {
+            --accent-color: #22c55e;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(209, 213, 219, 0.3);
+            margin-top: 80px;
+            padding: 25px 20px 20px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .footer-links a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #34d399;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(52, 211, 153, 0.1);
+            border-radius: 50%;
+            color: #34d399;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+        }
+
+        .social-icon:hover {
+            background: #34d399;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 15px auto 0;
+            padding-top: 15px;
+            border-top: 1px solid rgba(209, 213, 219, 0.3);
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.8rem;
+        }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -313,6 +520,25 @@
 
             .search-input {
                 font-size: 0.9rem;
+            }
+
+            .categories-header h2 {
+                font-size: 1.6rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 12px;
             }
         }
     </style>
@@ -365,6 +591,116 @@
             </div>
         </header>
 
+        <section class="categories-section">
+            <div class="categories-header">
+                <h2>Explore Top Categories</h2>
+                <p>Find opportunities that match your interests</p>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card" data-category="service">
+                    <div>
+                        <h3 class="category-title">Service</h3>
+                        <p class="category-description">Give back to your community through meaningful volunteer work</p>
+                    </div>
+                    <svg class="category-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="32" cy="20" r="8"/>
+                        <path d="M20 50 Q20 35, 32 35 Q44 35, 44 50" stroke-linecap="round"/>
+                        <path d="M16 35 L20 40 L16 45" stroke-linecap="round"/>
+                        <path d="M48 35 L44 40 L48 45" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <div class="category-card" data-category="stem">
+                    <div>
+                        <h3 class="category-title">STEM</h3>
+                        <p class="category-description">Explore science, technology, engineering, and mathematics programs</p>
+                    </div>
+                    <svg class="category-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="32" cy="28" r="12"/>
+                        <circle cx="32" cy="28" r="8"/>
+                        <circle cx="32" cy="28" r="4"/>
+                        <line x1="32" y1="16" x2="32" y2="10"/>
+                        <line x1="32" y1="46" x2="32" y2="52"/>
+                        <line x1="44" y1="28" x2="50" y2="28"/>
+                        <line x1="20" y1="28" x2="14" y2="28"/>
+                    </svg>
+                </div>
+
+                <div class="category-card" data-category="sports">
+                    <div>
+                        <h3 class="category-title">Sports</h3>
+                        <p class="category-description">Join teams and athletic programs to stay active and competitive</p>
+                    </div>
+                    <svg class="category-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="32" cy="32" r="18"/>
+                        <path d="M14 32 Q32 20, 50 32"/>
+                        <path d="M14 32 Q32 44, 50 32"/>
+                        <line x1="32" y1="14" x2="32" y2="50"/>
+                    </svg>
+                </div>
+
+                <div class="category-card" data-category="arts">
+                    <div>
+                        <h3 class="category-title">Arts</h3>
+                        <p class="category-description">Express your creativity through visual arts, theater, and more</p>
+                    </div>
+                    <svg class="category-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="18" y="12" width="28" height="36" rx="2"/>
+                        <path d="M24 20 L32 35 L40 20" stroke-linecap="round"/>
+                        <line x1="26" y1="30" x2="38" y2="30"/>
+                    </svg>
+                </div>
+
+                <div class="category-card" data-category="music">
+                    <div>
+                        <h3 class="category-title">Music</h3>
+                        <p class="category-description">Discover bands, orchestras, and music education opportunities</p>
+                    </div>
+                    <svg class="category-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 45 Q20 38, 26 38 Q32 38, 32 45 Q32 52, 26 52 Q20 52, 20 45 Z"/>
+                        <line x1="32" y1="45" x2="32" y2="15"/>
+                        <path d="M32 15 L45 18 L45 30" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <div class="category-card" data-category="debate">
+                    <div>
+                        <h3 class="category-title">Debate</h3>
+                        <p class="category-description">Sharpen your public speaking and critical thinking skills</p>
+                    </div>
+                    <svg class="category-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 20 L30 20 L35 15 L35 25 L30 20" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M49 35 L34 35 L29 40 L29 30 L34 35" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <div class="category-card" data-category="rocketry">
+                    <div>
+                        <h3 class="category-title">Rocketry</h3>
+                        <p class="category-description">Build and launch rockets while learning aerospace engineering</p>
+                    </div>
+                    <svg class="category-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M32 10 L28 30 L32 48 L36 30 Z" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M28 30 L20 38" stroke-linecap="round"/>
+                        <path d="M36 30 L44 38" stroke-linecap="round"/>
+                        <circle cx="32" cy="22" r="3"/>
+                    </svg>
+                </div>
+
+                <div class="category-card" data-category="environmental">
+                    <div>
+                        <h3 class="category-title">Environmental</h3>
+                        <p class="category-description">Make a difference with sustainability and conservation projects</p>
+                    </div>
+                    <svg class="category-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M32 15 Q40 20, 40 30 Q40 40, 32 45" stroke-linecap="round"/>
+                        <path d="M32 15 Q24 20, 24 30 Q24 40, 32 45" stroke-linecap="round"/>
+                        <line x1="32" y1="45" x2="32" y2="52"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
         <div class="results-section" id="resultsSection">
             <div class="results-header">
                 <h2>Activities Near You</h2>
@@ -372,6 +708,26 @@
             </div>
             <div id="activitiesList"></div>
         </div>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#about">About Us</a>
+                    <a href="#contact">Contact</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://instagram.com" target="_blank" class="social-icon" aria-label="Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 InMotionary. All rights reserved.</p>
+            </div>
+        </footer>
     </div>
 
         <script type="module" src="script.js"></script>
