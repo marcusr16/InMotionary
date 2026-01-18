@@ -303,9 +303,9 @@
 
         .categories-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            max-width: 800px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -314,8 +314,8 @@
             backdrop-filter: blur(8px);
             border: 1px solid rgba(209, 213, 219, 0.3);
             border-radius: 10px;
-            padding: 20px;
-            min-height: 130px;
+            padding: 18px;
+            min-height: 140px;
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
@@ -330,8 +330,8 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             background: var(--accent-color);
             opacity: 0.1;
             border-radius: 0 10px 0 100%;
@@ -346,32 +346,32 @@
 
         .category-card:hover::before {
             opacity: 0.15;
-            width: 85px;
-            height: 85px;
+            width: 75px;
+            height: 75px;
         }
 
         .category-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #1f2937;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             position: relative;
             z-index: 1;
         }
 
         .category-description {
             color: #6b7280;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             line-height: 1.4;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             position: relative;
             z-index: 1;
         }
 
         .category-icon {
             align-self: flex-start;
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             opacity: 0.4;
             transition: opacity 0.3s ease;
         }
@@ -527,7 +527,7 @@
             }
 
             .categories-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .footer-content {
