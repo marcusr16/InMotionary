@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InMotionary - Discover Your Next Adventure</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -72,6 +72,73 @@
             display: flex;
             gap: 12px;
             align-items: center;
+        }
+
+        .language-selector {
+            position: relative;
+        }
+
+        .language-btn {
+            padding: 9px 16px;
+            border: 1px solid #d1d5db;
+            background: transparent;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .language-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(209, 213, 219, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            min-width: 140px;
+            display: none;
+            z-index: 100;
+        }
+
+        .language-dropdown.show {
+            display: block;
+        }
+
+        .language-option {
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            color: #1f2937;
+            font-size: 0.9rem;
+        }
+
+        .language-option:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .language-option:last-child {
+            border-radius: 0 0 8px 8px;
+        }
+
+        .language-option:hover {
+            background: rgba(52, 211, 153, 0.1);
+        }
+
+        .language-option.active {
+            background: rgba(52, 211, 153, 0.15);
+            font-weight: 600;
         }
 
         .btn-auth {
@@ -170,6 +237,26 @@
             color: #6b7280;
             text-align: center;
             margin-top: 8px;
+        }
+
+        .hero-description {
+            max-width: 700px;
+            margin: 30px auto 0;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero-description h2 {
+            font-size: 1.8rem;
+            color: #1f2937;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .hero-description p {
+            font-size: 1.05rem;
+            color: #6b7280;
+            line-height: 1.7;
         }
 
         h1 {
@@ -505,6 +592,15 @@
                 height: 35px;
             }
 
+            .auth-buttons {
+                gap: 8px;
+            }
+
+            .language-btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+
             .btn-auth {
                 padding: 8px 16px;
                 font-size: 0.85rem;
@@ -521,6 +617,14 @@
 
             .search-input {
                 font-size: 0.9rem;
+            }
+
+            .hero-description h2 {
+                font-size: 1.5rem;
+            }
+
+            .hero-description p {
+                font-size: 0.95rem;
             }
 
             .categories-header h2 {
@@ -576,6 +680,17 @@
                     <h1 class="brand-name">InMotionary</h1>
                 </div>
                 <div class="auth-buttons">
+                    <div class="language-selector">
+                        <button class="language-btn" id="languageBtn" onclick="toggleLanguageDropdown()">
+                            🌐 English
+                        </button>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <div class="language-option active" onclick="selectLanguage('English')">English</div>
+                            <div class="language-option" onclick="selectLanguage('Español')">Español</div>
+                            <div class="language-option" onclick="selectLanguage('Français')">Français</div>
+                            <div class="language-option" onclick="selectLanguage('Deutsch')">Deutsch</div>
+                        </div>
+                    </div>
                     <button class="btn-auth btn-login">Log In</button>
                     <button class="btn-auth btn-signup">Sign Up</button>
                 </div>
@@ -591,6 +706,11 @@
                 <p class="location-status-text" id="topLocationStatus">Enable location to find opportunities near you</p>
             </div>
         </header>
+
+        <div class="hero-description">
+            <h2>Discover Your Path Forward</h2>
+            <p>InMotionary connects students with meaningful extracurricular activities, volunteer opportunities, and community programs. Whether you're passionate about STEM, the arts, sports, or service, find local opportunities that align with your interests and help you grow.</p>
+        </div>
 
         <section class="categories-section">
             <div class="categories-header">
