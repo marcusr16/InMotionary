@@ -175,3 +175,42 @@ function displayMockResults() {
 
 window.requestLocation = requestLocation;
 window.searchActivities = searchActivities;
+
+// Language selector functionality
+let currentLanguage = 'English';
+
+function toggleLanguageDropdown() {
+    const dropdown = document.getElementById('languageDropdown');
+    dropdown.classList.toggle('show');
+}
+
+function selectLanguage(language) {
+    currentLanguage = language;
+    const btn = document.getElementById('languageBtn');
+    btn.textContent = `🌐 ${language}`;
+    
+    // Remove active class from all options
+    document.querySelectorAll('.language-option').forEach(option => {
+        option.classList.remove('active');
+    });
+    
+    // Add active class to selected option
+    event.target.classList.add('active');
+    
+    // Close dropdown
+    document.getElementById('languageDropdown').classList.remove('show');
+    
+    // Here you would typically trigger language translation
+    console.log('Language changed to:', language);
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const languageSelector = document.querySelector('.language-selector');
+    if (languageSelector && !languageSelector.contains(event.target)) {
+        document.getElementById('languageDropdown').classList.remove('show');
+    }
+});
+
+window.toggleLanguageDropdown = toggleLanguageDropdown;
+window.selectLanguage = selectLanguage;
