@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - InMotionary</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(-45deg, #faf8f5, #d4f1e8, #fef3e2, #d1fae5);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .signup-container {
+            max-width: 480px;
+            width: 100%;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .logo-link:hover {
+            opacity: 0.8;
+        }
+
+        .logo-svg {
+            width: 45px;
+            height: 45px;
+        }
+
+        .brand-name {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .signup-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .signup-header h1 {
+            font-size: 1.8rem;
+            color: #1f2937;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .signup-header p {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .account-type-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .account-type-option {
+            padding: 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .account-type-option:hover {
+            border-color: #34d399;
+            background: rgba(52, 211, 153, 0.05);
+        }
+
+        .account-type-option.selected {
+            border-color: #34d399;
+            background: rgba(52, 211, 153, 0.1);
+        }
+
+        .account-type-option input[type="radio"] {
+            display: none;
+        }
+
+        .account-type-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .account-type-label {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .account-type-description {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #34d399;
+            box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.1);
+        }
+
+        .organization-fields {
+            display: none;
+        }
+
+        .organization-fields.show {
+            display: block;
+        }
+
+        .password-requirements {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 6px;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #34d399;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: #10b981;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .login-link a {
+            color: #34d399;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 640px) {
+            .signup-card {
+                padding: 30px 20px;
+            }
+
+            .account-type-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="logo-section">
+            <a href="index.html" class="logo-link">
+                <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="25" r="8" fill="none" stroke="#10b981" stroke-width="2.5"/>
+                    <line x1="50" y1="33" x2="50" y2="55" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="50" y1="38" x2="38" y2="48" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="50" y1="38" x2="62" y2="33" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="50" y1="55" x2="42" y2="72" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="50" y1="55" x2="58" y2="75" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="30" y1="50" x2="35" y2="50" stroke="#d1fae5" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                    <line x1="28" y1="45" x2="33" y2="45" stroke="#d1fae5" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+                </svg>
+                <span class="brand-name">InMotionary</span>
+            </a>
+        </div>
+
+        <div class="signup-card">
+            <div class="signup-header">
+                <h1>Create Your Account</h1>
+                <p>Join InMotionary to discover or share opportunities</p>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <form id="signupForm">
+                <div class="account-type-selector">
+                    <label class="account-type-option" id="studentOption">
+                        <input type="radio" name="accountType" value="student" checked>
+                        <span class="account-type-icon">🎓</span>
+                        <span class="account-type-label">Student</span>
+                        <span class="account-type-description">Find opportunities</span>
+                    </label>
+                    <label class="account-type-option selected" id="organizationOption">
+                        <input type="radio" name="accountType" value="organization">
+                        <span class="account-type-icon">🏢</span>
+                        <span class="account-type-label">Organization</span>
+                        <span class="account-type-description">Post opportunities</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="you@example.com">
+                </div>
+
+                <div class="organization-fields" id="organizationFields">
+                    <div class="form-group">
+                        <label for="organizationName">Organization Name</label>
+                        <input type="text" id="organizationName" name="organizationName" placeholder="Your School or Organization">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactPerson">Contact Person Name</label>
+                        <input type="text" id="contactPerson" name="contactPerson" placeholder="Your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="(123) 456-7890">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Create a strong password">
+                    <p class="password-requirements">At least 8 characters</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Re-enter your password">
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Create Account</button>
+            </form>
+
+            <div class="login-link">
+                Already have an account? <a href="login.html">Log In</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="auth-signup.js"></script>
+</body>
+</html>
