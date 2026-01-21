@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Dashboard - InMotionary</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(-45deg, #faf8f5, #d4f1e8, #fef3e2, #d1fae5);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(209, 213, 219, 0.3);
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .user-info {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            padding: 9px 20px;
+            background: transparent;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            color: #1f2937;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .dashboard-title {
+            margin-bottom: 30px;
+        }
+
+        .dashboard-title h1 {
+            font-size: 2rem;
+            color: #1f2937;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-title p {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            background: white;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #34d399;
+            box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #34d399;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: #10b981;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message,
+        .error-message {
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .success-message.show,
+        .error-message.show {
+            display: block;
+        }
+
+        .opportunity-item {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .opportunity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .opportunity-title {
+            font-size: 1.2rem;
+            color: #1f2937;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-approved {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .opportunity-details {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .opportunity-details p {
+            margin-bottom: 8px;
+        }
+
+        .opportunity-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-secondary {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            color: #1f2937;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #f3f4f6;
+        }
+
+        .btn-delete {
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+
+        .btn-delete:hover {
+            background: #fee2e2;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <a href="index.html" class="logo-link">
+                    <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="25" r="8" fill="none" stroke="#10b981" stroke-width="2.5"/>
+                        <line x1="50" y1="33" x2="50" y2="55" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                        <line x1="50" y1="38" x2="38" y2="48" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                        <line x1="50" y1="38" x2="62" y2="33" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                        <line x1="50" y1="55" x2="42" y2="72" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                        <line x1="50" y1="55" x2="58" y2="75" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                        <line x1="30" y1="50" x2="35" y2="50" stroke="#d1fae5" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                        <line x1="28" y1="45" x2="33" y2="45" stroke="#d1fae5" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+                    </svg>
+                    <span class="brand-name">InMotionary</span>
+                </a>
+            </div>
+            <div class="header-actions">
+                <span class="user-info" id="userEmail">Loading...</span>
+                <button class="logout-btn" onclick="handleLogout()">Log Out</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-title">
+            <h1>Organization Dashboard</h1>
+            <p>Post and manage your opportunities</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h2>Post New Opportunity</h2>
+                <div class="success-message" id="successMessage"></div>
+                <div class="error-message" id="errorMessage"></div>
+                
+                <form id="opportunityForm">
+                    <div class="form-group">
+                        <label for="title">Opportunity Title</label>
+                        <input type="text" id="title" name="title" required placeholder="e.g., Youth Robotics Club">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category" required>
+                            <option value="">Select a category</option>
+                            <option value="service">Service</option>
+                            <option value="stem">STEM</option>
+                            <option value="sports">Sports</option>
+                            <option value="arts">Arts</option>
+                            <option value="music">Music</option>
+                            <option value="debate">Debate</option>
+                            <option value="rocketry">Rocketry</option>
+                            <option value="environmental">Environmental</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" required placeholder="Describe the opportunity and what students will do..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="schedule">Schedule</label>
+                        <input type="text" id="schedule" name="schedule" required placeholder="e.g., Tuesdays 4 PM - 6 PM">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location/Address</label>
+                        <input type="text" id="location" name="location" required placeholder="Full address or city">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactEmail">Contact Email</label>
+                        <input type="email" id="contactEmail" name="contactEmail" required placeholder="contact@organization.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="website">Website (Optional)</label>
+                        <input type="url" id="website" name="website" placeholder="https://yourorganization.com">
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">Submit for Approval</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Your Opportunities</h2>
+                <div id="opportunitiesList">
+                    <div class="empty-state">
+                        <p>Loading your opportunities...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="dashboard-organization.js"></script>
+</body>
+</html>
