@@ -4,12 +4,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { 
   getAuth, 
   createUserWithEmailAndPassword,
-  sendEmailVerification 
+  sendEmailVerification,
+  GoogleAuthProvider,
+  signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { 
   getFirestore, 
   doc, 
   setDoc,
+  getDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -29,12 +32,107 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
 
 // Admin emails - both co-founders have equal admin access
 const adminEmails = [
     'mdross0218@gmail.com',
     'charliehirschman247@gmail.com'
 ];
+
+// Google Sign-In
+window.signUpWithGoogle = async function() {
+    try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        
+        // Check if user already exists in Firestore
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        
+        if (userDoc.exists()) {
+            // User already has an account - redirect to login instead
+            alert('You already have an account! Redirecting to login...');
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        // Get selected account type
+        const accountType = document.querySelector('input[name="accountType"]:checked').value;
+        
+        // For organization accounts, we need additional info
+        if (accountType === 'organization') {
+            const organizationName = prompt('Please enter your Organization Name:');
+            const contactPerson = prompt('Please enter your Full Name (Contact Person):');
+            const phoneNumber = prompt('Please enter your Phone Number:');
+            
+            if (!organizationName || !contactPerson || !phoneNumber) {
+                alert('Organization information is required. Please sign up using email instead.');
+                await auth.signOut();
+                return;
+            }
+            
+            // Determine user role
+            const isAdmin = adminEmails.includes(user.email.toLowerCase());
+            const role = isAdmin ? 'admin' : accountType;
+            
+            // Save organization user data
+            await setDoc(doc(db, 'users', user.uid), {
+                email: user.email.toLowerCase(),
+                accountType: accountType,
+                role: role,
+                organizationName: organizationName,
+                contactPerson: contactPerson,
+                phoneNumber: phoneNumber,
+                createdAt: serverTimestamp(),
+                emailVerified: user.emailVerified,
+                status: 'pending',
+                verified: false,
+                signInMethod: 'google'
+            });
+            
+            if (role === 'admin') {
+                window.location.href = 'dashboard-admin.html';
+            } else {
+                alert('Account created! Your organization account is pending approval. You will receive an email once approved.');
+                window.location.href = 'index.html';
+            }
+            
+        } else {
+            // Student account
+            const isAdmin = adminEmails.includes(user.email.toLowerCase());
+            const role = isAdmin ? 'admin' : accountType;
+            
+            await setDoc(doc(db, 'users', user.uid), {
+                email: user.email.toLowerCase(),
+                accountType: accountType,
+                role: role,
+                createdAt: serverTimestamp(),
+                emailVerified: user.emailVerified,
+                status: 'active',
+                signInMethod: 'google'
+            });
+            
+            if (role === 'admin') {
+                window.location.href = 'dashboard-admin.html';
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+        
+    } catch (error) {
+        console.error('Google Sign-In error:', error);
+        
+        let errorMsg = 'Failed to sign up with Google. Please try again.';
+        
+        if (error.code === 'auth/popup-closed-by-user') {
+            errorMsg = 'Sign-in cancelled. Please try again.';
+        } else if (error.code === 'auth/popup-blocked') {
+            errorMsg = 'Pop-up blocked by browser. Please allow pop-ups and try again.';
+        }
+        
+        showError(errorMsg);
+    }
+};
 
 // Account type selection handling
 const studentOption = document.getElementById('studentOption');
@@ -156,7 +254,8 @@ signupForm.addEventListener('submit', async (e) => {
         
         // Redirect based on account type and role
         if (role === 'admin') {
-            window.location.href = 'dashboard-admin.html';
+            alert('Admin account created successfully! Dashboard coming soon.');
+            window.location.href = 'index.html';
         } else if (accountType === 'organization') {
             // Show message that they need approval
             alert('Account created! Your organization account is pending approval. You will receive an email once approved.');
