@@ -6,7 +6,9 @@ import {
   signInWithEmailAndPassword,
   setPersistence,
   browserLocalPersistence,
-  browserSessionPersistence
+  browserSessionPersistence,
+  GoogleAuthProvider,
+  signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { 
   getFirestore, 
@@ -30,6 +32,65 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
+
+// Google Sign-In
+window.signInWithGoogle = async function() {
+    try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        
+        // Get user data from Firestore
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        
+        if (!userDoc.exists()) {
+            // User doesn't have an account yet - redirect to signup
+            await auth.signOut();
+            alert('No account found. Please sign up first!');
+            window.location.href = 'signup.html';
+            return;
+        }
+        
+        const userData = userDoc.data();
+        
+        // Check if organization account is approved
+        if (userData.accountType === 'organization' && userData.status === 'pending') {
+            showError('Your organization account is still pending approval. Please wait for admin approval.');
+            await auth.signOut();
+            return;
+        }
+        
+        if (userData.accountType === 'organization' && userData.status === 'rejected') {
+            showError('Your organization account has been rejected. Please contact support for more information.');
+            await auth.signOut();
+            return;
+        }
+        
+        // Redirect based on user role
+        if (userData.role === 'admin') {
+            window.location.href = 'dashboard-admin.html';
+        } else if (userData.accountType === 'organization') {
+            window.location.href = 'dashboard-organization.html';
+        } else {
+            window.location.href = 'index.html';
+        }
+        
+    } catch (error) {
+        console.error('Google Sign-In error:', error);
+        
+        let errorMsg = 'Failed to sign in with Google. Please try again.';
+        
+        if (error.code === 'auth/popup-closed-by-user') {
+            errorMsg = 'Sign-in cancelled. Please try again.';
+        } else if (error.code === 'auth/popup-blocked') {
+            errorMsg = 'Pop-up blocked by browser. Please allow pop-ups and try again.';
+        } else if (error.code === 'auth/account-exists-with-different-credential') {
+            errorMsg = 'An account with this email already exists. Please use email/password to sign in.';
+        }
+        
+        showError(errorMsg);
+    }
+};
 
 // Form submission
 const loginForm = document.getElementById('loginForm');
@@ -96,7 +157,8 @@ loginForm.addEventListener('submit', async (e) => {
         
         // Redirect based on user role
         if (userData.role === 'admin') {
-            window.location.href = 'dashboard-admin.html';
+            alert('Welcome back, Admin! Dashboard coming soon.');
+            window.location.href = 'index.html';
         } else if (userData.accountType === 'organization') {
             window.location.href = 'dashboard-organization.html';
         } else {
