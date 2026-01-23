@@ -157,8 +157,7 @@ loginForm.addEventListener('submit', async (e) => {
         
         // Redirect based on user role
         if (userData.role === 'admin') {
-            alert('Welcome back, Admin! Dashboard coming soon.');
-            window.location.href = 'index.html';
+            window.location.href = 'dashboard-admin.html';
         } else if (userData.accountType === 'organization') {
             window.location.href = 'dashboard-organization.html';
         } else {

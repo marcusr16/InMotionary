@@ -254,8 +254,7 @@ signupForm.addEventListener('submit', async (e) => {
         
         // Redirect based on account type and role
         if (role === 'admin') {
-            alert('Admin account created successfully! Dashboard coming soon.');
-            window.location.href = 'index.html';
+            window.location.href = 'dashboard-admin.html';
         } else if (accountType === 'organization') {
             // Show message that they need approval
             alert('Account created! Your organization account is pending approval. You will receive an email once approved.');
